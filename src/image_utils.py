@@ -1,4 +1,6 @@
+# pyrefly: ignore [missing-import]
 import cv2
+# pyrefly: ignore [missing-import]
 import numpy as np
 
 def load_and_preprocess_image(filepath, target_size=(128, 128)):

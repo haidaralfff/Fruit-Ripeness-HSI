@@ -1,4 +1,6 @@
+# pyrefly: ignore [missing-import]
 import cv2
+# pyrefly: ignore [missing-import]
 import numpy as np
 
 def rgb_to_hsi(image):

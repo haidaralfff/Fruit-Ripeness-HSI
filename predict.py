@@ -1,4 +1,5 @@
 import argparse
+# pyrefly: ignore [missing-import]
 import cv2
 import pickle
 import time
@@ -7,7 +8,11 @@ import sys
 
 # Tambahkan src ke path
 sys.path.append(os.path.join(os.path.dirname(__file__), 'src'))
+
+# pyrefly: ignore [missing-import]
 from image_utils import load_and_preprocess_image
+
+# pyrefly: ignore [missing-import]
 from feature_extraction import extract_features
 
 def main():
