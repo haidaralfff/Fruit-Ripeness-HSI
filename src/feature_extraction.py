@@ -4,6 +4,9 @@ import cv2
 import numpy as np
 
 def rgb_to_hsi(image):
+    """
+    Konversi gambar dari format RGB ke HSI (Hue, Saturation, Intensity).
+    """
     img = image.astype(np.float32) / 255.0
     B, G, R = img[:,:,0], img[:,:,1], img[:,:,2]
     
@@ -21,9 +24,25 @@ def rgb_to_hsi(image):
     return H, S, I
 
 def extract_features(img):
+    """
+    Ekstrak fitur (Mean dan Standar Deviasi) dari channel H, S, dan I.
+    Fungsi ini secara cerdas mengabaikan background hitam murni (0,0,0) 
+    agar perhitungan murni hanya berdasarkan warna objek (buah).
+    """
     H, S, I = rgb_to_hsi(img)
+    
+    # Filter background hitam murni (nilai Intensity mendekati 0)
+    valid_pixels_mask = I > 0.01
+    
+    if not np.any(valid_pixels_mask):
+        valid_pixels_mask = np.ones_like(I, dtype=bool)
+
+    H_valid = H[valid_pixels_mask]
+    S_valid = S[valid_pixels_mask]
+    I_valid = I[valid_pixels_mask]
+    
     return [
-        np.mean(H), np.std(H),
-        np.mean(S), np.std(S),
-        np.mean(I), np.std(I)
+        np.mean(H_valid), np.std(H_valid),
+        np.mean(S_valid), np.std(S_valid),
+        np.mean(I_valid), np.std(I_valid)
     ]

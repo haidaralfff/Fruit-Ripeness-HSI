@@ -7,17 +7,18 @@ Proyek ini bertujuan untuk mendeteksi tingkat kematangan buah secara otomatis me
 Dalam industri pertanian dan distribusi pangan, pengecekan tingkat kematangan buah secara manual memakan waktu, rentan terhadap subjektivitas manusia, dan kurang efisien untuk skala besar. Sistem ini memberikan solusi *Computer Vision* yang konsisten, cepat, dan stabil terhadap variasi pencahayaan dibandingkan metode evaluasi visual biasa.
 
 ## ✨ Fitur Utama
-- **Ekstraksi Fitur HSI**: Mengubah gambar RGB menjadi ruang warna HSI yang lebih menyerupai persepsi visual manusia.
+- **Robust Background Removal**: Segmentasi cerdas menggunakan *Otsu's Thresholding* dan *Bounding Box Crop* otomatis, sehingga buah dapat dipisahkan dari *background* dengan sempurna (mencegah buah berlubang akibat pantulan kilap cahaya).
+- **Ekstraksi Fitur HSI**: Mengubah gambar RGB menjadi ruang warna HSI yang sangat menyerupai persepsi mata manusia, memfilter *background* dan murni mengekstrak statistik (Mean & Std Dev) dari area buah.
 - **Prediksi Kematangan Cepat**: Menggunakan model Random Forest yang akurat untuk prediksi langsung.
 - **Dashboard Web Interaktif**: Menggunakan Streamlit sehingga pengguna dapat mengunggah gambar dan langsung melihat hasilnya secara visual.
-- **Command Line Interface (CLI)**: Mendukung prediksi gambar langsung melalui terminal.
+- **Command Line Interface (CLI)**: Mendukung prediksi gambar langsung melalui terminal, **lengkap dengan visualisasi *Bounding Box* hijau** yang menandai letak buah di gambar beserta teks prediksinya.
 
 ## 🏗️ Arsitektur Sistem
 1. **Input**: Gambar RGB buah yang diunggah pengguna.
-2. **Preprocessing**: Gambar di-*resize* dan di- *blur* menggunakan Gaussian Filter untuk mengurangi *noise*.
-3. **Ekstraksi Fitur**: Konversi ke ruang warna HSI dan ekstraksi nilai statistik (Mean & Std Deviasi dari H, S, I).
+2. **Preprocessing**: Gambar di-*blur* (Gaussian Filter) untuk mengurangi *noise*, lalu dikenakan proses Otsu's Masking dan pemotongan *Bounding Box* agar buah terfokus utuh sebelum di-*resize*.
+3. **Ekstraksi Fitur**: Konversi ke ruang warna HSI dan ekstraksi nilai statistik cerdas (hanya memperhitungkan piksel buah valid).
 4. **Machine Learning Model**: Fitur dimasukkan ke dalam model klasifikasi Random Forest yang sudah dilatih.
-5. **Output**: Sistem menampilkan label kematangan (Mentah / Matang / Terlalu Matang) beserta informasi waktu inferensi.
+5. **Output**: Sistem menampilkan label kematangan (Mentah / Matang / Terlalu Matang) di terminal atau Web, beserta popup visualisasi deteksi.
 
 ## 🛠️ Tech Stack
 - **Bahasa Pemrograman**: Python 3
